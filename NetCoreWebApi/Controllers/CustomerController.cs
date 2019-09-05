@@ -31,6 +31,69 @@ namespace NetCoreWebApi.Controllers
                 _context.SaveChanges();
             }
         }
+
+        // GET: api/Customer
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomerList()
+        {
+            return await _context.CustomerList.ToListAsync();
+        }
+
+        // GET: api/Customer/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Customer>> GetCustomer(long id)
+        {
+            var customer = await _context.CustomerList.FindAsync(id);
+
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            return customer;
+        }
+
+        // POST: api/Customer
+        [HttpPost]
+        public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
+        {
+            _context.CustomerList.Add(customer);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetCustomer), new { id = customer.Id }, customer);
+        }
+
+        // PUT: api/Customer/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutCustomer(long id, Customer customer)
+        {
+            if (id != customer.Id)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(customer).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        // DELETE: api/Customer/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCustomer(long id)
+        {
+            var customer = await _context.CustomerList.FindAsync(id);
+
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            _context.CustomerList.Remove(customer);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
     }
 
     //Default controller template 
