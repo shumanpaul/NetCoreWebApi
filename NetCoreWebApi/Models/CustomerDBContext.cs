@@ -16,6 +16,6 @@ namespace NetCoreWebApi.Models
         {
         }
 
-        public DbSet<Customer> TodoItems { get; set; }
+        public DbSet<Customer> CustomerList { get; set; }
     }
 }

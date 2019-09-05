@@ -23,11 +23,11 @@ namespace NetCoreWebApi.Controllers
         {
             _context = context;
 
-            if (_context.TodoItems.Count() == 0)
+            if (_context.CustomerList.Count() == 0)
             {
-                // Create a new TodoItem if collection is empty,
-                // which means you can't delete all TodoItems.
-                _context.TodoItems.Add(new Customer { Id = 1, FirstName = "John", LastName = "Smith", DateOfBirth = System.DateTime.Now.Date });
+                // Create a new Customer if collection is empty,
+                // which means you can't delete all Customers.
+                _context.CustomerList.Add(new Customer { Id = 1, FirstName = "John", LastName = "Smith", DateOfBirth = System.DateTime.Now.Date });
                 _context.SaveChanges();
             }
         }
