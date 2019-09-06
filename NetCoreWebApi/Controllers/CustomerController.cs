@@ -27,9 +27,16 @@ namespace NetCoreWebApi.Controllers
             {
                 // Create a new Customer if collection is empty,
                 // which means you can't delete all Customers.
-                _context.CustomerList.Add(new Customer { Id = 1, FirstName = "John", LastName = "Smith", DateOfBirth = System.DateTime.Now.Date });
+                _context.CustomerList.Add(new Customer { FirstName = "John", LastName = "Smith", DateOfBirth = System.DateTime.Now.Date });                
                 _context.SaveChanges();
             }
+        }
+
+        // GET api/customer/version
+        [HttpGet("version")]
+        public string Version()
+        {
+            return "Version 1.0.0";
         }
 
         // GET: api/Customer
@@ -57,8 +64,12 @@ namespace NetCoreWebApi.Controllers
         [HttpPost]
         public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
         {
-            _context.CustomerList.Add(customer);
-            await _context.SaveChangesAsync();
+            if (ModelState.IsValid)
+            {
+
+                _context.CustomerList.Add(customer);
+                await _context.SaveChangesAsync();
+            }
 
             return CreatedAtAction(nameof(GetCustomer), new { id = customer.Id }, customer);
         }
@@ -72,8 +83,12 @@ namespace NetCoreWebApi.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(customer).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+            if (ModelState.IsValid)
+            {
+
+                _context.Entry(customer).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+            }
 
             return NoContent();
         }

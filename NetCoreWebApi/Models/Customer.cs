@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,17 +11,20 @@ namespace NetCoreWebApi.Models
     /// </summary>
     public class Customer
     {
-        public long Id { get; set; }
+       public long Id { get; set; }
+
+        [StringLength(60, MinimumLength = 3)]
+        [Display(Name = "First Name")]
+        [Required]
         public string FirstName { get; set; }
+
+        [StringLength(60, MinimumLength = 3)]
+        [Display(Name = "Last Name")]
+        [Required]
         public string LastName { get; set; }
-        //Store only the Date part of DateTime
-        public DateTime DateOfBirth {
-            get {
-                return DateOfBirth;
-            }
-            set {
-                DateOfBirth = value.Date;
-            }
-        }
+
+        [Display(Name = "Release Date")]
+        [DataType(DataType.Date)]
+        public DateTime DateOfBirth { get; set; }
     }
 }
