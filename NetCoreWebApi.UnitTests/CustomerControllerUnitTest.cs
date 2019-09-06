@@ -1,7 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 using Microsoft.AspNetCore.Mvc;
 using NetCoreWebApi.Controllers;
+using NetCoreWebApi.Models;
 using Xunit;
+using ViewResult = Microsoft.AspNetCore.Mvc.ViewResult;
 
 namespace NetCoreWebApi.UnitTests
 {
@@ -18,11 +22,12 @@ namespace NetCoreWebApi.UnitTests
             var dbContext = CustomerDbContextMocker.GetCustomerDBContext(nameof(TestGetCustomersAsync));
             var controller = new CustomerController(dbContext);
 
-            // Act            
+            // Act
+            var response = controller.GetCustomerList();
             dbContext.Dispose();
 
             // Assert
-            Assert.Equal(3,2);
+            Assert.NotNull(response.Result);
         }
 
         /// <summary>
@@ -36,12 +41,26 @@ namespace NetCoreWebApi.UnitTests
             // Arrange
             var dbContext = CustomerDbContextMocker.GetCustomerDBContext(nameof(TestGetCustomerByIdAsync));
             var controller = new CustomerController(dbContext);
+            var id = RandomNumber(int.MaxValue);
+            var request = new Customer
+            {
+                Id = id,
+                FirstName = "Shuman",
+                LastName = "Castellino",
+                DateOfBirth = System.DateTime.Now.AddYears(-20).Date
+            };
 
-            // Act            
+            //Act
+            var postResponse = await controller.PostCustomer(request);
+            var response = await controller.GetCustomer(id);            
+
             dbContext.Dispose();
 
             // Assert
-            Assert.Equal(3, 2);
+            Assert.NotNull(response.Value);
+            //var actionResult = Assert.IsType<ActionResult<Customer>>(response.Value);
+            //Assert.IsType<NotFoundObjectResult>(actionResult.Result);
+
         }
 
         /// <summary>
@@ -53,13 +72,65 @@ namespace NetCoreWebApi.UnitTests
         {
             // Arrange
             var dbContext = CustomerDbContextMocker.GetCustomerDBContext(nameof(TestPostCustomerAsync));
-            var controller = new CustomerController(dbContext);
+            var controller = new CustomerController(dbContext);            
+            var id = RandomNumber(int.MaxValue);
 
-            // Act            
+            var request = new Customer
+            {
+                Id = id,
+                FirstName = "Shuman",
+                LastName = "Paul",
+                DateOfBirth = System.DateTime.Now.AddYears(-20).Date            };
+
+            //Act
+            var response = await controller.PostCustomer(request);
+
             dbContext.Dispose();
 
             // Assert
-            Assert.Equal(3, 2);
+            Assert.IsType<CreatedAtActionResult>(response.Result);
+        }
+
+        /// <summary>
+        /// Test Put Method
+        /// </summary>
+        /// <returns></returns>
+        [Fact]
+        public async Task TestPutCustomerAsync()
+        {
+            // Arrange
+            var dbContext = CustomerDbContextMocker.GetCustomerDBContext(nameof(TestPutCustomerAsync));
+            var controller = new CustomerController(dbContext);
+            var id = RandomNumber(int.MaxValue);
+            var request = new Customer
+            {
+                Id = id,
+                FirstName = "Shuman",
+                LastName = "Castellino",
+                DateOfBirth = System.DateTime.Now.AddYears(-20).Date
+            };
+
+            //Act
+            var postResponse = await controller.PostCustomer(request);
+
+            dbContext.Dispose();
+            dbContext = CustomerDbContextMocker.GetCustomerDBContext(nameof(TestPutCustomerAsync));
+            controller = new CustomerController(dbContext);
+
+            var modifiedRequest = new Customer
+            {
+                Id = id,
+                FirstName = "Shuman",
+                LastName = "Castellino",
+                DateOfBirth = System.DateTime.Now.AddYears(-20).Date
+            };
+
+            var response = await controller.PutCustomer(id, modifiedRequest);
+
+            dbContext.Dispose();
+
+            // Assert
+            Assert.IsType<NoContentResult>(response);
         }
 
         /// <summary>
@@ -72,12 +143,30 @@ namespace NetCoreWebApi.UnitTests
             // Arrange
             var dbContext = CustomerDbContextMocker.GetCustomerDBContext(nameof(TestDeleteCustomerAsync));
             var controller = new CustomerController(dbContext);
+            var id = RandomNumber(int.MaxValue);
+            var request = new Customer
+            {
+                Id= id,
+                FirstName = "Shuman",
+                LastName = "Castellino",
+                DateOfBirth = System.DateTime.Now.AddYears(-20).Date
+            };
 
-            // Act            
+            //Act
+            var postResponse = await controller.PostCustomer(request);
+            var response = await controller.DeleteCustomer(id);
+
             dbContext.Dispose();
 
             // Assert
-            Assert.Equal(3, 2);
+            Assert.IsType<NoContentResult>(response);
         }
+
+        // Generate a random number
+        public int RandomNumber(int max)
+                {
+                    Random random = new Random();
+                    return random.Next(max);
+                }
     }
 }
