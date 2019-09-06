@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using System.Web.Mvc;
 using Microsoft.AspNetCore.Mvc;
 using NetCoreWebApi.Controllers;
 using NetCoreWebApi.Filter;
@@ -17,7 +16,7 @@ namespace NetCoreWebApi.UnitTests
         /// </summary>
         /// <returns></returns>
         [Fact]
-        public async Task TestGetCustomersAsync()
+        public void TestGetCustomersAsync()
         {
             // Arrange
             var dbContext = CustomerDbContextMocker.GetCustomerDBContext(nameof(TestGetCustomersAsync));
