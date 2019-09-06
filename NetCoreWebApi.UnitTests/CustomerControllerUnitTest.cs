@@ -23,7 +23,7 @@ namespace NetCoreWebApi.UnitTests
             var controller = new CustomerController(dbContext);
 
             // Act
-            var response = controller.GetCustomerList();
+            var response = controller.GetCustomerList(new CustomerFilterModel());
             dbContext.Dispose();
 
             // Assert
