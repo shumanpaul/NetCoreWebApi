@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NetCoreWebApi.Models;
 
-namespace NetCoreWebApi.Models
+namespace NetCoreWebApi.DBContext
 {
     /// <summary>
     /// Database Conext Class to coordinate  Entity Framework functionality for Customer data model

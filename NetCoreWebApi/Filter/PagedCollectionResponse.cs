@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NetCoreWebApi.Models
+namespace NetCoreWebApi.Filter
 {
     public class PagedCollectionResponse<T> where T : class
     {

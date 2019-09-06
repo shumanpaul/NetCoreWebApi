@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Microsoft.AspNetCore.Mvc;
 using NetCoreWebApi.Controllers;
+using NetCoreWebApi.Filter;
 using NetCoreWebApi.Models;
 using Xunit;
 using ViewResult = Microsoft.AspNetCore.Mvc.ViewResult;
