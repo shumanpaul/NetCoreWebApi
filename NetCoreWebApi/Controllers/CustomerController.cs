@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NetCoreWebApi.Models;
+using System;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-    /// <summary>
-    /// Customer COntroller
-    /// </summary>
+/// <summary>
+/// Customer COntroller
+/// </summary>
 
 namespace NetCoreWebApi.Controllers
 {
@@ -29,6 +30,13 @@ namespace NetCoreWebApi.Controllers
                 // which means you can't delete all Customers.
                 _context.CustomerList.Add(new Customer { FirstName = "John", LastName = "Smith", DateOfBirth = System.DateTime.Now.Date.AddYears(-10) });
                 _context.CustomerList.Add(new Customer { FirstName = "Smith", LastName = "John", DateOfBirth = System.DateTime.Now.Date.AddYears(-20) });
+                _context.CustomerList.Add(new Customer { FirstName = "Smith", LastName = "John", DateOfBirth = System.DateTime.Now.Date.AddYears(-20) });
+                _context.CustomerList.Add(new Customer { FirstName = "Smith", LastName = "John", DateOfBirth = System.DateTime.Now.Date.AddYears(-20) });
+                _context.CustomerList.Add(new Customer { FirstName = "Smith", LastName = "John", DateOfBirth = System.DateTime.Now.Date.AddYears(-20) });
+                _context.CustomerList.Add(new Customer { FirstName = "Smith", LastName = "John", DateOfBirth = System.DateTime.Now.Date.AddYears(-20) });
+                _context.CustomerList.Add(new Customer { FirstName = "Smith", LastName = "John", DateOfBirth = System.DateTime.Now.Date.AddYears(-20) });
+                _context.CustomerList.Add(new Customer { FirstName = "Smith", LastName = "John", DateOfBirth = System.DateTime.Now.Date.AddYears(-20) });
+                _context.CustomerList.Add(new Customer { FirstName = "Smith", LastName = "John", DateOfBirth = System.DateTime.Now.Date.AddYears(-20) });
                 _context.SaveChanges();
             }
         }
@@ -40,11 +48,48 @@ namespace NetCoreWebApi.Controllers
             return "Version 1.0.0";
         }
 
-        // GET: api/Customer
+        //// GET: api/Customer
+        //[HttpGet]
+        //public async Task<ActionResult<IEnumerable<Customer>>> GetCustomerList()
+        //{
+        //    return await _context.CustomerList.ToListAsync();
+        //}
+
+        // GET api/values  
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomerList()
+        public ActionResult<PagedCollectionResponse<Customer>> GetCustomerList([FromQuery] CustomerFilterModel filter)
         {
-            return await _context.CustomerList.ToListAsync();
+
+            //Filtering logic  
+            Func<CustomerFilterModel, IEnumerable<Customer>> filterData = (filterModel) =>
+            {
+                return _context.CustomerList.Where(p => p.FirstName.Contains(filterModel.FirstName ?? String.Empty, StringComparison.InvariantCultureIgnoreCase)
+                &&
+                p.LastName.Contains(filterModel.LastName ?? String.Empty, StringComparison.InvariantCultureIgnoreCase)
+                )
+                .Skip((filterModel.Page - 1) * filter.Limit)
+                .Take(filterModel.Limit);
+            };
+
+            //Get the data for the current page  
+            var result = new PagedCollectionResponse<Customer>();
+            result.Items = filterData(filter);
+
+            //Get next page URL string  
+            CustomerFilterModel nextFilter = filter.Clone() as CustomerFilterModel;
+            nextFilter.Page += 1;
+            String nextUrl = filterData(nextFilter).Count() <= 0 ? null : this.Url.Action("GetCustomerList", null, nextFilter, Request.Scheme);
+
+            //Get previous page URL string  
+            CustomerFilterModel previousFilter = filter.Clone() as CustomerFilterModel;
+            previousFilter.Page -= 1;
+            String previousUrl = previousFilter.Page <= 0 ? null : this.Url.Action("GetCustomerList", null, previousFilter, Request.Scheme);
+
+            result.NextPage = !String.IsNullOrWhiteSpace(nextUrl) ? new Uri(nextUrl) : null;
+            result.PreviousPage = !String.IsNullOrWhiteSpace(previousUrl) ? new Uri(previousUrl) : null;
+
+            return result;
+
         }
 
         // GET: api/Customer/5
