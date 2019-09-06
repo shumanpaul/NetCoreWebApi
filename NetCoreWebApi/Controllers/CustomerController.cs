@@ -27,7 +27,8 @@ namespace NetCoreWebApi.Controllers
             {
                 // Create a new Customer if collection is empty,
                 // which means you can't delete all Customers.
-                _context.CustomerList.Add(new Customer { FirstName = "John", LastName = "Smith", DateOfBirth = System.DateTime.Now.Date });                
+                _context.CustomerList.Add(new Customer { FirstName = "John", LastName = "Smith", DateOfBirth = System.DateTime.Now.Date.AddYears(-10) });
+                _context.CustomerList.Add(new Customer { FirstName = "Smith", LastName = "John", DateOfBirth = System.DateTime.Now.Date.AddYears(-20) });
                 _context.SaveChanges();
             }
         }

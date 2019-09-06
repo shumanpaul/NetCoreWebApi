@@ -10,6 +10,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Reflection;
 using System.IO;
+using Newtonsoft.Json.Serialization;
 
 namespace NetCoreWebApi
 {
@@ -30,6 +31,8 @@ namespace NetCoreWebApi
                 opt.UseInMemoryDatabase("CustomerList"));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            //To Avoid Camel Casing of JSON Response
+            services.AddMvc().AddJsonOptions(opt => opt.SerializerSettings.ContractResolver = new DefaultContractResolver());
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
