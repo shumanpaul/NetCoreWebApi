@@ -60,7 +60,7 @@ namespace NetCoreWebApi.Controllers
 
         // GET api/customer  
         [HttpGet]
-        public ActionResult<PagedCollectionResponse<Customer>> GetCustomerList([FromQuery] CustomerFilterModel filter)
+        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomerListAsync([FromQuery] CustomerFilterModel filter)
         {
 
             //Filtering logic  
@@ -71,12 +71,11 @@ namespace NetCoreWebApi.Controllers
                 p.LastName.Contains(filterModel.LastName ?? String.Empty, StringComparison.InvariantCultureIgnoreCase)
                 );
 
-            };
-            //Get the data for the current page  
-            var result = new PagedCollectionResponse<Customer>();
-            result.Items = filterData(filter);
-
-            return result;
+            };           
+            
+            //Filter Data
+           var result = filterData(filter);
+           return await Task.FromResult(result.ToList());
         }
 
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NetCoreWebApi.Controllers;
@@ -11,6 +12,7 @@ namespace NetCoreWebApi.UnitTests
 {
     public class CustomerControllerUnitTest
     {
+        #region Get
         /// <summary>
         /// Test Get Method
         /// </summary>
@@ -23,11 +25,75 @@ namespace NetCoreWebApi.UnitTests
             var controller = new CustomerController(dbContext);
 
             // Act
-            var response = controller.GetCustomerList(new CustomerFilterModel());
+            var response = controller.GetCustomerListAsync(new CustomerFilterModel());
             dbContext.Dispose();
 
             // Assert
-            Assert.NotNull(response.Value.Items);
+            Assert.NotNull(response.Result);
+        }   
+
+        [Fact]
+        public void TestGetCustomersFilterFirstName()
+        {
+            // Arrange
+            var dbContext = CustomerDbContextMocker.GetCustomerDBContext(nameof(TestGetCustomersFilterFirstName));
+            var controller = new CustomerController(dbContext);
+            var filter = new CustomerFilterModel { FirstName = "Jo" };
+
+            // Act
+            var response = controller.GetCustomerListAsync(filter);
+            dbContext.Dispose();
+
+            // Assert
+            Assert.NotNull(response.Result);            
+        }
+
+        [Fact]
+        public void TestGetCustomersFilterLastName()
+        {
+            // Arrange
+            var dbContext = CustomerDbContextMocker.GetCustomerDBContext(nameof(TestGetCustomersFilterLastName));
+            var controller = new CustomerController(dbContext);
+            var filter = new CustomerFilterModel { LastName = "it" };
+
+            // Act
+            var response = controller.GetCustomerListAsync(filter);
+            dbContext.Dispose();
+
+            // Assert
+            Assert.NotNull(response.Result);
+        }
+
+        [Fact]
+        public void TestGetCustomersFilterFirstAndLastName()
+        {
+            // Arrange
+            var dbContext = CustomerDbContextMocker.GetCustomerDBContext(nameof(TestGetCustomersFilterFirstAndLastName));
+            var controller = new CustomerController(dbContext);
+            var filter = new CustomerFilterModel { FirstName = "Jo", LastName = "it" };
+
+            // Act
+            var response = controller.GetCustomerListAsync(filter);
+            dbContext.Dispose();
+
+            // Assert
+            Assert.NotNull(response.Result);
+        }
+
+        [Fact]
+        public void TestGetCustomersFilterFirstAndLastNameNoResult()
+        {
+            // Arrange
+            var dbContext = CustomerDbContextMocker.GetCustomerDBContext(nameof(TestGetCustomersFilterFirstAndLastNameNoResult));
+            var controller = new CustomerController(dbContext);
+            var filter = new CustomerFilterModel { FirstName = "abc", LastName = "xyz" };
+
+            // Act
+            var response = controller.GetCustomerListAsync(filter);
+            dbContext.Dispose();
+
+            // Assert
+            Assert.NotNull(response.Result);
         }
 
         /// <summary>
@@ -62,6 +128,9 @@ namespace NetCoreWebApi.UnitTests
             //Assert.IsType<NotFoundObjectResult>(actionResult.Result);
 
         }
+        #endregion
+
+        #region Post
 
         /// <summary>
         /// Test Post Method
@@ -90,6 +159,9 @@ namespace NetCoreWebApi.UnitTests
             // Assert
             Assert.IsType<CreatedAtActionResult>(response.Result);
         }
+        #endregion
+
+        #region Put
 
         /// <summary>
         /// Test Put Method
@@ -132,6 +204,9 @@ namespace NetCoreWebApi.UnitTests
             // Assert
             Assert.IsType<NoContentResult>(response);
         }
+        #endregion
+
+        #region Delete
 
         /// <summary>
         /// Test Delete Method
@@ -161,12 +236,13 @@ namespace NetCoreWebApi.UnitTests
             // Assert
             Assert.IsType<NoContentResult>(response);
         }
+        #endregion
 
         // Generate a random number
         public int RandomNumber(int max)
-                {
-                    Random random = new Random();
-                    return random.Next(max);
-                }
+        {
+            Random random = new Random();
+            return random.Next(max);
+        }
     }
 }
