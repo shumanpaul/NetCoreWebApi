@@ -102,12 +102,12 @@ namespace NetCoreWebApi.Controllers
             //Get next page URL string  
             CustomerFilterModelPaged nextFilter = filter.Clone() as CustomerFilterModelPaged;
             nextFilter.Page += 1;
-            String nextUrl = filterData(nextFilter).Count() <= 0 ? null : this.Url.Action("GetCustomerList", null, nextFilter, Request.Scheme);
+            String nextUrl = filterData(nextFilter).Count() <= 0 ? null : this.Url.Action("GetCustomerListPaged", null, nextFilter, Request.Scheme);
 
             //Get previous page URL string  
             CustomerFilterModelPaged previousFilter = filter.Clone() as CustomerFilterModelPaged;
             previousFilter.Page -= 1;
-            String previousUrl = previousFilter.Page <= 0 ? null : this.Url.Action("GetCustomerList", null, previousFilter, Request.Scheme);
+            String previousUrl = previousFilter.Page <= 0 ? null : this.Url.Action("GetCustomerListPaged", null, previousFilter, Request.Scheme);
 
             result.NextPage = !String.IsNullOrWhiteSpace(nextUrl) ? new Uri(nextUrl) : null;
             result.PreviousPage = !String.IsNullOrWhiteSpace(previousUrl) ? new Uri(previousUrl) : null;

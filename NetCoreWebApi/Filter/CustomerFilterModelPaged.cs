@@ -6,18 +6,19 @@ using System.Threading.Tasks;
 
 namespace NetCoreWebApi.Filter
 {
-    public class CustomerFilterModelPaged : PagingModelBase
+    public class CustomerFilterModelPaged : CustomerFilterModel, ICloneable
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public int Page { get; set; }
+        public int Limit { get; set; }
 
         public CustomerFilterModelPaged() : base()
         {
+            this.Page = 1;
             this.Limit = 10;
         }
 
 
-        public override object Clone()
+        public object Clone()
         {
             var jsonString = JsonConvert.SerializeObject(this);
             return JsonConvert.DeserializeObject(jsonString, this.GetType());
