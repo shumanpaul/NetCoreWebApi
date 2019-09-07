@@ -58,7 +58,29 @@ namespace NetCoreWebApi.Controllers
         //    return await _context.CustomerList.ToListAsync();
         //}
 
-        // GET api/values  
+        // GET api/customer  
+        [HttpGet]
+        public ActionResult<PagedCollectionResponse<Customer>> GetCustomerList([FromQuery] CustomerFilterModel filter)
+        {
+
+            //Filtering logic  
+            Func<CustomerFilterModel, IEnumerable<Customer>> filterData = (filterModel) =>
+            {
+                return _context.CustomerList.Where(p => p.FirstName.Contains(filterModel.FirstName ?? String.Empty, StringComparison.InvariantCultureIgnoreCase)
+                &&
+                p.LastName.Contains(filterModel.LastName ?? String.Empty, StringComparison.InvariantCultureIgnoreCase)
+                );
+
+            };
+            //Get the data for the current page  
+            var result = new PagedCollectionResponse<Customer>();
+            result.Items = filterData(filter);
+
+            return result;
+        }
+
+
+        // GET api/customer/paged  
         [HttpGet("Paged")]
         public ActionResult<PagedCollectionResponse<Customer>> GetCustomerListPaged([FromQuery] CustomerFilterModelPaged filter)
         {
@@ -93,26 +115,6 @@ namespace NetCoreWebApi.Controllers
 
             return result;
 
-        }
-
-        [HttpGet]
-        public ActionResult<PagedCollectionResponse<Customer>> GetCustomerList(CustomerFilterModel filter)
-        {
-
-            //Filtering logic  
-            Func<CustomerFilterModel, IEnumerable<Customer>> filterData = (filterModel) =>
-            {
-                return _context.CustomerList.Where(p => p.FirstName.Contains(filterModel.FirstName ?? String.Empty, StringComparison.InvariantCultureIgnoreCase)
-                &&
-                p.LastName.Contains(filterModel.LastName ?? String.Empty, StringComparison.InvariantCultureIgnoreCase)
-                );
-                
-            };
-            //Get the data for the current page  
-            var result = new PagedCollectionResponse<Customer>();
-            result.Items = filterData(filter);        
-
-            return result;
         }
 
         // GET: api/Customer/5
