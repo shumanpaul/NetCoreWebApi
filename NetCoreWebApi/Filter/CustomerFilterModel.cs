@@ -13,7 +13,7 @@ namespace NetCoreWebApi.Filter
 
         public CustomerFilterModel() : base()
         {
-            this.Limit = 3;
+            this.Limit = 10;
         }
 
 
