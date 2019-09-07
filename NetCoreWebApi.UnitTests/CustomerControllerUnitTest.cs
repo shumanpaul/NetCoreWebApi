@@ -32,6 +32,9 @@ namespace NetCoreWebApi.UnitTests
             Assert.NotNull(response.Result);
         }   
 
+        /// <summary>
+        /// Filter based on FIrst Name
+        /// </summary>
         [Fact]
         public void TestGetCustomersFilterFirstName()
         {
@@ -48,6 +51,9 @@ namespace NetCoreWebApi.UnitTests
             Assert.NotNull(response.Result);            
         }
 
+        /// <summary>
+        /// Filter based on Last Name
+        /// </summary>
         [Fact]
         public void TestGetCustomersFilterLastName()
         {
@@ -64,6 +70,9 @@ namespace NetCoreWebApi.UnitTests
             Assert.NotNull(response.Result);
         }
 
+        /// <summary>
+        /// Filter based on First Name and Last Name
+        /// </summary>
         [Fact]
         public void TestGetCustomersFilterFirstAndLastName()
         {
@@ -80,6 +89,9 @@ namespace NetCoreWebApi.UnitTests
             Assert.NotNull(response.Result);
         }
 
+        /// <summary>
+        /// Filter based on First Name and Last Name with no result
+        /// </summary>
         [Fact]
         public void TestGetCustomersFilterFirstAndLastNameNoResult()
         {
