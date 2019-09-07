@@ -59,12 +59,12 @@ namespace NetCoreWebApi.Controllers
         //}
 
         // GET api/values  
-        [HttpGet]
-        public ActionResult<PagedCollectionResponse<Customer>> GetCustomerList([FromQuery] CustomerFilterModel filter)
+        [HttpGet("Paged")]
+        public ActionResult<PagedCollectionResponse<Customer>> GetCustomerListPaged([FromQuery] CustomerFilterModelPaged filter)
         {
 
             //Filtering logic  
-            Func<CustomerFilterModel, IEnumerable<Customer>> filterData = (filterModel) =>
+            Func<CustomerFilterModelPaged, IEnumerable<Customer>> filterData = (filterModel) =>
             {
                 return _context.CustomerList.Where(p => p.FirstName.Contains(filterModel.FirstName ?? String.Empty, StringComparison.InvariantCultureIgnoreCase)
                 &&
@@ -79,12 +79,12 @@ namespace NetCoreWebApi.Controllers
             result.Items = filterData(filter);
 
             //Get next page URL string  
-            CustomerFilterModel nextFilter = filter.Clone() as CustomerFilterModel;
+            CustomerFilterModelPaged nextFilter = filter.Clone() as CustomerFilterModelPaged;
             nextFilter.Page += 1;
             String nextUrl = filterData(nextFilter).Count() <= 0 ? null : this.Url.Action("GetCustomerList", null, nextFilter, Request.Scheme);
 
             //Get previous page URL string  
-            CustomerFilterModel previousFilter = filter.Clone() as CustomerFilterModel;
+            CustomerFilterModelPaged previousFilter = filter.Clone() as CustomerFilterModelPaged;
             previousFilter.Page -= 1;
             String previousUrl = previousFilter.Page <= 0 ? null : this.Url.Action("GetCustomerList", null, previousFilter, Request.Scheme);
 
@@ -95,7 +95,8 @@ namespace NetCoreWebApi.Controllers
 
         }
 
-        public ActionResult<PagedCollectionResponse<Customer>> GetCustomerList_Test([FromQuery] CustomerFilterModel filter)
+        [HttpGet]
+        public ActionResult<PagedCollectionResponse<Customer>> GetCustomerList(CustomerFilterModel filter)
         {
 
             //Filtering logic  

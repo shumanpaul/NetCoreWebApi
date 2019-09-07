@@ -6,22 +6,10 @@ using System.Threading.Tasks;
 
 namespace NetCoreWebApi.Filter
 {
-    public class CustomerFilterModel : FilterModelBase
+    public class CustomerFilterModel
     {
         public string FirstName { get; set; }
-        public string LastName { get; set; }
-
-        public CustomerFilterModel() : base()
-        {
-            this.Limit = 10;
-        }
-
-
-        public override object Clone()
-        {
-            var jsonString = JsonConvert.SerializeObject(this);
-            return JsonConvert.DeserializeObject(jsonString, this.GetType());
-        }
+        public string LastName { get; set; }       
 
     }
 }
