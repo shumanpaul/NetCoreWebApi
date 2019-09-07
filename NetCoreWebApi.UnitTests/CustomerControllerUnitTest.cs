@@ -16,18 +16,18 @@ namespace NetCoreWebApi.UnitTests
         /// </summary>
         /// <returns></returns>
         [Fact]
-        public void TestGetCustomersAsync()
+        public void TestGetCustomers()
         {
             // Arrange
-            var dbContext = CustomerDbContextMocker.GetCustomerDBContext(nameof(TestGetCustomersAsync));
+            var dbContext = CustomerDbContextMocker.GetCustomerDBContext(nameof(TestGetCustomers));
             var controller = new CustomerController(dbContext);
 
             // Act
-            var response = controller.GetCustomerList(new CustomerFilterModel());
+            var response = controller.GetCustomerList_Test(new CustomerFilterModel());
             dbContext.Dispose();
 
             // Assert
-            Assert.NotNull(response.Result);
+            Assert.NotNull(response.Value.Items);
         }
 
         /// <summary>

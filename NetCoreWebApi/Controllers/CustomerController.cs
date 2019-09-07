@@ -94,6 +94,25 @@ namespace NetCoreWebApi.Controllers
 
         }
 
+        public ActionResult<PagedCollectionResponse<Customer>> GetCustomerList_Test([FromQuery] CustomerFilterModel filter)
+        {
+
+            //Filtering logic  
+            Func<CustomerFilterModel, IEnumerable<Customer>> filterData = (filterModel) =>
+            {
+                return _context.CustomerList.Where(p => p.FirstName.Contains(filterModel.FirstName ?? String.Empty, StringComparison.InvariantCultureIgnoreCase)
+                &&
+                p.LastName.Contains(filterModel.LastName ?? String.Empty, StringComparison.InvariantCultureIgnoreCase)
+                );
+                
+            };
+            //Get the data for the current page  
+            var result = new PagedCollectionResponse<Customer>();
+            result.Items = filterData(filter);        
+
+            return result;
+        }
+
         // GET: api/Customer/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Customer>> GetCustomer(long id)
