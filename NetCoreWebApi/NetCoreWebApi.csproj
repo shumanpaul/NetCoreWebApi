@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\ValuesController.cs" />
     <Compile Remove="Models\TodoItem.cs" />
   </ItemGroup>
 
