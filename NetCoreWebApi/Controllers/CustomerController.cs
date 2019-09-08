@@ -45,6 +45,10 @@ namespace NetCoreWebApi.Controllers
         }
 
         // GET api/customer/version
+        /// <summary>
+        /// Returns Version of API
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("version")]
         public string Version()
         {
@@ -58,7 +62,12 @@ namespace NetCoreWebApi.Controllers
         //    return await _context.CustomerList.ToListAsync();
         //}
 
-        // GET api/customer  
+        // GET api/customer 
+        /// <summary>
+        /// Reteive List of Customers
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Customer>>> GetCustomerListAsync([FromQuery] CustomerFilterModel filter)
         {
@@ -79,7 +88,12 @@ namespace NetCoreWebApi.Controllers
         }
 
 
-        // GET api/customer/paged  
+        // GET api/customer/paged       
+        /// <summary>
+        /// Reteive List of Customers with paging
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
         [HttpGet("Paged")]
         public ActionResult<PagedCollectionResponse<Customer>> GetCustomerListPaged([FromQuery] CustomerFilterModelPaged filter)
         {
@@ -117,6 +131,11 @@ namespace NetCoreWebApi.Controllers
         }
 
         // GET: api/Customer/5
+        /// <summary>
+        /// Reteive Specific Customer based on Id
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<Customer>> GetCustomer(long id)
         {
@@ -130,7 +149,13 @@ namespace NetCoreWebApi.Controllers
             return customer;
         }
 
+
         // POST: api/Customer
+        /// <summary>
+        /// Create Customer record
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
         {
@@ -145,6 +170,13 @@ namespace NetCoreWebApi.Controllers
         }
 
         // PUT: api/Customer/5
+        /// <summary>
+        /// Modify a specific Customer record
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="customer"></param>
+        /// <response code="400">Possible wrong value of Id in the URL and and Request Body</response>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCustomer(long id, Customer customer)
         {
@@ -164,6 +196,11 @@ namespace NetCoreWebApi.Controllers
         }
 
         // DELETE: api/Customer/5
+        /// <summary>
+        /// Delete Specific Customer based on Id
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCustomer(long id)
         {
