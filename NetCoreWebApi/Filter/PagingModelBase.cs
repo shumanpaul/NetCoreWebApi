@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace NetCoreWebApi.Filter
 {
+    /// <summary>
+    /// Paging Model Class
+    /// </summary>
     public abstract class PagingModelBase : ICloneable
     {
         public int Page { get; set; }

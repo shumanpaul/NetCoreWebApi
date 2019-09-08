@@ -5,6 +5,10 @@ using System.Threading.Tasks;
 
 namespace NetCoreWebApi.Filter
 {
+    /// <summary>
+    /// Response type for Paged requests
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class PagedCollectionResponse<T> where T : class
     {
         public IEnumerable<T> Items { get; set; }

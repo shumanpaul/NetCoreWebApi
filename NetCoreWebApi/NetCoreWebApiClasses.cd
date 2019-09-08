@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="NetCoreWebApi.Models.Customer" Collapsed="true">
+    <Position X="5.75" Y="1.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAACAEAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Models\Customer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NetCoreWebApi.Filter.CustomerFilterModel">
+    <Position X="3.25" Y="1.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Filter\CustomerFilterModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NetCoreWebApi.Filter.CustomerFilterModelPaged">
+    <Position X="3.25" Y="3.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAAAAAQAAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Filter\CustomerFilterModelPaged.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NetCoreWebApi.Filter.PagedCollectionResponse&lt;T&gt;">
+    <Position X="8.75" Y="2.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAgAACAAA=</HashCode>
+      <FileName>Filter\PagedCollectionResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NetCoreWebApi.DBContext.CustomerDBContext">
+    <Position X="5.75" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DBContext\CustomerDBContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NetCoreWebApi.Controllers.CustomerController" Collapsed="true">
+    <Position X="8.75" Y="1.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAEAABAgABAAAAAAAAAAAAACAAAAAAAADAAA=</HashCode>
+      <FileName>Controllers\CustomerController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
